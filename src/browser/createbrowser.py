@@ -21,21 +21,17 @@ class CreatBrowser:
 
         options = webdriver.ChromeOptions()
 
-        options.add_argument(
-            f"user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
-            f"Chrome/115.0.0.0 Safari/537.36 OPR/101.0.0.0 (Edition Yx 05)")
-
         if not ACTIVE_WINDOW_BROWSER:
             options.add_argument("--headless")
 
         platform_to_os = platform.system()
 
-        if platform_to_os == "Linux":
-            path_dir = (f'/Users/{user_system}/Library/Application Support/Google/Chrome/{name_profile}')
-        else:
-            path_dir = (f'C:\\Users\\{user_system}\\AppData\\Local\\Google\\Chrome\\User Data\\{name_profile}')
-
-        options.add_argument(f"user-data-dir={path_dir}")
+        # if platform_to_os == "Linux":
+        #     path_dir = (f'/Users/{user_system}/Library/Application Support/Google/Chrome/{name_profile}')
+        # else:
+        #     path_dir = (f'C:\\Users\\{user_system}\\AppData\\Local\\Google\\Chrome\\User Data\\{name_profile}')
+        #
+        # options.add_argument(f"user-data-dir={path_dir}")
 
         prefs = {"enable_do_not_track": True}
         options.add_experimental_option("prefs", prefs)

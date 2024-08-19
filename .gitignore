@@ -2,4 +2,5 @@ venv/
 .idea/
 __pycache__/
 _temp.py
+parser.db
 logs.txt

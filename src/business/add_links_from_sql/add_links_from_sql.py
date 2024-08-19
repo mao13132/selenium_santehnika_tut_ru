@@ -6,8 +6,11 @@
 # 1.0       2023    Initial Version
 #
 # ---------------------------------------------
-ACTIVE_WINDOW_BROWSER = True
+def add_links_from_sql(links, BotDB):
+    for link in links:
+        try:
+            BotDB.add_link(link)
+        except:
+            continue
 
-PARSE_URL = 'https://santehnika-tut.ru/sliv/'
-
-MODE_GET_LINKS = True
+    return True

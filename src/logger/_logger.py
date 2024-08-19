@@ -6,8 +6,12 @@
 # 1.0       2023    Initial Version
 #
 # ---------------------------------------------
-ACTIVE_WINDOW_BROWSER = True
+import logging
 
-PARSE_URL = 'https://santehnika-tut.ru/sliv/'
 
-MODE_GET_LINKS = True
+def logger_msg(message):
+    _msg = f'Logger ddr: {message}'
+
+    logging.error(_msg)
+
+    print(_msg)
