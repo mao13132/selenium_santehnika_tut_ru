@@ -9,15 +9,15 @@
 from datetime import datetime
 
 from settings import PARSE_URL
-from src.business.add_links_from_sql.add_links_from_sql import add_links_from_sql
+from src.business.mode_get_links.add_links_from_sql.add_links_from_sql import add_links_from_sql
 from src.business.close_popup.close_popup import close_popup
-from src.business.get_all_products.get_all_products import loop_get_all_products
-from src.business.get_count_page.get_count_page import loop_get_count_page
+from src.business.mode_get_links.get_all_products.get_all_products import loop_get_all_products
+from src.business.mode_get_links.get_count_page.get_count_page import loop_get_count_page
 from src.business.load_page import LoadPage
-from src.business.paginator_click.paginator_click import loop_paginator_click
+from src.business.mode_get_links.paginator_click.paginator_click import loop_paginator_click
 
 
-class StartBusiness:
+class StartGetLinks:
     def __init__(self, settings):
         self.settings = settings
 
@@ -25,7 +25,7 @@ class StartBusiness:
 
         self.BotDB = settings['BotDB']
 
-    def start_business(self):
+    def start_get_links(self):
 
         res_load = LoadPage(self.driver, PARSE_URL).loop_load_page("//*[contains(@class, 'logo')]")
 
@@ -53,7 +53,7 @@ class StartBusiness:
             if next_page <= all_count_page:
                 res_click_paginator = loop_paginator_click(self.driver, next_page)
 
-            print(f'{datetime.now().strftime("%H:%M:%S")} Обработал страницу {current_page}')
+            print(f'{datetime.now().strftime("%H:%M:%S")} -- Обработал страницу {current_page}')
 
         print(f'{datetime.now().strftime("%H:%M:%S")} Закончил обработку всех страницу')
 

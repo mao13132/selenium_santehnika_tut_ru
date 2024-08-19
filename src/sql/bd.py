@@ -2,6 +2,8 @@ import datetime
 import sqlite3
 from datetime import datetime
 
+from src.logger._logger import logger_msg
+
 
 class BotDB:
     __instance = None
@@ -31,6 +33,18 @@ class BotDB:
 
         except Exception as es:
             print(f'SQL исключение check_table monitoring {es}')
+
+    def get_all_links(self):
+        try:
+            result = self.cursor.execute(f"SELECT * FROM links WHERE pars='0'")
+
+            response = result.fetchall()
+        except Exception as es:
+            logger_msg(f'SQL ошибка get_all_links "{es}" ')
+
+            return False
+
+        return response
 
     def exist_link(self, link):
         result = self.cursor.execute(f"SELECT * FROM links "

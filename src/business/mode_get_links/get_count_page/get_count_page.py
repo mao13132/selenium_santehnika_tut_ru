@@ -11,7 +11,7 @@ import time
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 
-from src.business.full_load_page.full_load_page import loop_full_load_page
+from src.business.mode_get_links.full_load_page.full_load_page import loop_full_load_page
 from src.logger._logger import logger_msg
 
 

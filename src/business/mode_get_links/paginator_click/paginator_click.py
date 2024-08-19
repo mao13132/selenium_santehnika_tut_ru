@@ -11,8 +11,8 @@ import time
 from selenium.webdriver.common.by import By
 
 from src.business.close_popup.close_popup import close_popup
-from src.business.full_load_page.full_load_page import loop_full_load_page
-from src.business.get_count_page.get_count_page import move_to_paginator
+from src.business.mode_get_links.full_load_page.full_load_page import loop_full_load_page
+from src.business.mode_get_links.get_count_page.get_count_page import move_to_paginator
 from src.logger._logger import logger_msg
 
 
@@ -29,8 +29,7 @@ def paginator_click(driver, count_page):
 def get_current_page(driver):
     try:
         current_page = driver.find_element(by=By.XPATH,
-                                           value=f"//*[contains(@class, 'pagination') and "
-                                                 f"contains(@class, 'load')]"
+                                           value=f"//*[@class='pag_wrapper']//*[contains(@class, 'pagination')]"
                                                  f"//*[contains(@class, 'active')]").text
 
         current_page = int(current_page)

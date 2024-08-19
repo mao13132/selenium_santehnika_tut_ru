@@ -9,23 +9,35 @@
 import sys
 import traceback
 
-from settings import MODE_GET_LINKS
+from settings import MODE_GET_LINKS, MODE_PARSING_PRODUCTS
 from src.browser.createbrowser import CreatBrowser
-from src.business.start_business import StartBusiness
+from src.business.mode_get_links.start_get_links import StartGetLinks
+from src.business.mode_parsing_products.start_parsing_products import StartParsingProducts
 from src.logger._logger import logger_msg
 from src.sql.bot_connector import BotDB
 
 
 def main(driver):
     if MODE_GET_LINKS:
+        print(f'Запущен режим сбора ссылок на товар')
+
         settings_task = {
             'driver': driver,
             'BotDB': BotDB
         }
 
-        res_task = StartBusiness(settings_task).start_business()
+        res_task = StartGetLinks(settings_task).start_get_links()
 
-    print(f'Работу окончил. Результат: {res_task}')
+    if MODE_PARSING_PRODUCTS:
+
+        settings_parsing = {
+            'driver': driver,
+            'BotDB': BotDB
+        }
+
+        res_parsing = StartParsingProducts(settings_parsing).start_parsing_products()
+
+    print(f'Закончил работу программы')
 
     return True
 

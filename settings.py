@@ -10,4 +10,7 @@ ACTIVE_WINDOW_BROWSER = True
 
 PARSE_URL = 'https://santehnika-tut.ru/sliv/'
 
-MODE_GET_LINKS = True
+MODE_GET_LINKS = False
+
+MODE_PARSING_PRODUCTS = True
+
