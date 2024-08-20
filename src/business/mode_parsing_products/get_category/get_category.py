@@ -15,8 +15,8 @@ from src.logger._logger import logger_msg
 
 def get_category(driver):
     try:
-        category = driver.find_element(by=By.XPATH, value=f"//*[contains(text(), 'Цвет')]/parent::span"
-                                                       f"/parent::li/div").text
+        category = driver.find_element(by=By.XPATH, value=f"//*[contains(text(), 'Тип товара')]/parent::span"
+                                                          f"/parent::li/div").text
     except:
         return False
 

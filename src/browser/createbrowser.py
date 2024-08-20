@@ -24,41 +24,34 @@ class CreatBrowser:
         if not ACTIVE_WINDOW_BROWSER:
             options.add_argument("--headless")
 
-        platform_to_os = platform.system()
-
-        # if platform_to_os == "Linux":
-        #     path_dir = (f'/Users/{user_system}/Library/Application Support/Google/Chrome/{name_profile}')
-        # else:
-        #     path_dir = (f'C:\\Users\\{user_system}\\AppData\\Local\\Google\\Chrome\\User Data\\{name_profile}')
-        #
-        # options.add_argument(f"user-data-dir={path_dir}")
-
         prefs = {"enable_do_not_track": True}
+
         options.add_experimental_option("prefs", prefs)
 
         options.add_argument("--disable-blink-features=AutomationControlled")
-        options.add_experimental_option("excludeSwitches", ["enable-automation"])
-        options.add_argument("--disable-infobars")
-        options.add_argument('--ignore-ssl-errors')
-        options.add_argument("--disable-crash-reporter")
-        options.add_argument("--disable-in-process-stack-traces")
-        options.add_argument("--disable-logging")
-        options.add_argument("--disable-dev-shm-usage")
-        options.add_argument('--ignore-certificate-errors-spki-list')
-        options.add_argument('--output=/dev/null')
-        options.add_argument("--log-level=3")
 
-        options.add_argument("--disable-extensions")
+        options.add_experimental_option("excludeSwitches", ["enable-automation"])
+
+        options.add_argument("--disable-infobars")
+
+        options.add_argument("--disable-bundled-ppapi-flash")
+
         options.add_argument("--disable-application-cache")
-        options.add_argument(f"start-maximized")
+
+        options.add_argument("window-size=1920,939")
+
+        options.add_argument("--dns-prefetch-disable")
+        options.add_argument("--disable-gpu")
+
+        options.add_argument('--no-sandbox')
+        options.add_argument('--disable-dev-shm-usage')
+        options.add_argument('ignore-certificate-errors')
+        options.add_argument("--log-level=3")
 
         experimental_options = {
             'excludeSwitches': ['enable-automation', 'enable-logging'],
             'prefs': {'profile.default_content_setting_values.notifications': 2, 'intl.accept_languages': 'en-US,en'}
         }
-
-        prefs = {"profile.managed_default_content_settings.images": 0}
-        options.add_experimental_option("prefs", prefs)
 
         for key, value in experimental_options.items():
             options.add_experimental_option(key, value)
@@ -80,11 +73,3 @@ class CreatBrowser:
             print(f"Браузер: {browser_version} драйвер: {driver_version}\n")
         except:
             print(f'Не получилось определить версию uc браузера')
-
-        self.driver.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {
-            'source': '''
-                        delete window.cdc_adoQpoasnfa76pfcZLmcfl_Array;
-                        delete window.cdc_adoQpoasnfa76pfcZLmcfl_Promise;
-                        delete window.cdc_adoQpoasnfa76pfcZLmcfl_Symbol;
-                  '''
-        })
