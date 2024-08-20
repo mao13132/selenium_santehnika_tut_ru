@@ -6,6 +6,8 @@
 # 1.0       2023    Initial Version
 #
 # ---------------------------------------------
+from datetime import datetime
+
 from selenium.webdriver.common.by import By
 
 from src.business.close_popup.close_popup import close_popup
@@ -38,10 +40,14 @@ class StartParsingProducts:
         if not products_list:
             return False
 
-        for sql_row in products_list:
+        print(f'{datetime.now().strftime("%H:%M:%S")} Начинаю обработку "{len(products_list)} товаров"')
+
+        for count, sql_row in enumerate(products_list):
             id_link = sql_row[0]
 
             link = sql_row[1]
+
+            print(f'{datetime.now().strftime("%H:%M:%S")} {count + 1} Начинаю обработку "{link}"')
 
             res_load = LoadPage(self.driver, link).loop_load_page("//*[contains(@class, 'logo')]")
 
@@ -64,16 +70,37 @@ class StartParsingProducts:
 
             description = loop_get_description(self.driver)
 
-            # images = GetImage(self.driver).loop_get_images()
+            images = GetImage(self.driver).loop_get_images()
 
             res_go = go_specifications(self.driver)
 
             category = loop_get_category(self.driver)
 
-            all_specifications = loop_get_all_specifications(self.driver)
+            specifications = loop_get_all_specifications(self.driver)
 
             documents = loop_get_document(self.driver)
 
-            print()
+            products = {
+                'link': link,
+                'name': name,
+                'price': price,
+                'brand': brand,
+                'article': article,
+                'country': country,
+                'color': color,
+                'description': description,
+                'images': images,
+                'res_go': res_go,
+                'category': category,
+                'specifications': specifications,
+                'documents': documents,
+            }
 
-        print()
+            res_add = self.BotDB.add_products(products)
+
+            if res_add:
+                self.BotDB.disable_link(id_link)
+
+            print(f'{datetime.now().strftime("%H:%M:%S")} Обработал {count + 1}')
+
+        print(f'{datetime.now().strftime("%H:%M:%S")} Закончил обработку всех товаров')

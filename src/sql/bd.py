@@ -32,7 +32,27 @@ class BotDB:
                                 f"link TEXT, pars BOOLEAN DEFAULT 0, other TEXT)")
 
         except Exception as es:
-            print(f'SQL исключение check_table monitoring {es}')
+            print(f'SQL исключение check_table links {es}')
+
+        try:
+            self.cursor.execute(f"CREATE TABLE IF NOT EXISTS "
+                                f"products (id_pk INTEGER PRIMARY KEY AUTOINCREMENT, "
+                                f"link TEXT, "
+                                f"name TEXT, "
+                                f"price NUMERIC, "
+                                f"brand TEXT, "
+                                f"article TEXT, "
+                                f"country TEXT, "
+                                f"color TEXT, "
+                                f"description TEXT, "
+                                f"images TEXT, "
+                                f"category TEXT, "
+                                f"specifications TEXT, "
+                                f"documents TEXT, "
+                                f"other TEXT)")
+
+        except Exception as es:
+            print(f'SQL исключение check_table products {es}')
 
     def get_all_links(self):
         try:
@@ -71,6 +91,56 @@ class BotDB:
             return True
 
         return False
+
+    def add_products(self, products):
+        result = self.cursor.execute(f"SELECT * FROM products WHERE link='{products['link']}'")
+
+        response = result.fetchall()
+
+        if not response:
+            import json
+
+            try:
+
+                specifications = json.dumps(products['specifications'])
+
+                self.cursor.execute("INSERT OR IGNORE INTO products ('link', 'name', 'price', 'brand', 'article', "
+                                    "'country', 'color', 'description', 'images', 'category', 'specifications', "
+                                    "'documents') VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
+                                    (products['link'], products['name'], products['price'], products['brand'],
+                                     products['article'], products['country'], products['color'],
+                                     products['description'],
+                                     products['images'], products['category'], specifications,
+                                     products['link']))
+
+                self.conn.commit()
+
+            except Exception as es:
+                error_ = f'SQL ошибка add_products: "{es}"'
+
+                logger_msg(error_)
+
+                return False
+
+            return True
+
+        return False
+
+    def disable_link(self, id_pk):
+
+        try:
+
+            self.cursor.execute(f"UPDATE links SET pars = 1 WHERE id_pk = '{id_pk}'")
+
+            self.conn.commit()
+
+        except Exception as es:
+
+            print(f'SQL Ошибка при disable_link "{es}"')
+
+            return False
+
+        return True
 
     def close(self):
         # Закрытие соединения
