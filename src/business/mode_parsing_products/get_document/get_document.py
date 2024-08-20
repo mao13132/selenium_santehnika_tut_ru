@@ -15,7 +15,7 @@ from src.logger._logger import logger_msg
 
 def get_document(driver):
     try:
-        documents = driver.find_elements(by=By.XPATH, value=f"//*[@class='docs']//img")
+        documents = driver.find_elements(by=By.XPATH, value=f"//*[@class='docs']//a")
     except:
         return False
 
@@ -27,7 +27,7 @@ def formate_documents(documents):
 
     for row in documents:
         try:
-            link = row.get_attribute('src')
+            link = row.get_attribute('href')
         except:
             continue
 

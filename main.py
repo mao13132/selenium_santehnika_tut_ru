@@ -13,6 +13,7 @@ from settings import MODE_GET_LINKS, MODE_PARSING_PRODUCTS
 from src.browser.createbrowser import CreatBrowser
 from src.business.mode_get_links.start_get_links import StartGetLinks
 from src.business.mode_parsing_products.start_parsing_products import StartParsingProducts
+from src.business.save_exel.start_save import StartSave
 from src.logger._logger import logger_msg
 from src.sql.bot_connector import BotDB
 
@@ -29,13 +30,18 @@ def main(driver):
         res_task = StartGetLinks(settings_task).start_get_links()
 
     if MODE_PARSING_PRODUCTS:
-
         settings_parsing = {
             'driver': driver,
             'BotDB': BotDB
         }
 
         res_parsing = StartParsingProducts(settings_parsing).start_parsing_products()
+
+    settings_save = {
+        'BotDB': BotDB
+    }
+
+    res_save = StartSave(settings_save).start_save('pars')
 
     print(f'Закончил работу программы')
 

@@ -49,6 +49,7 @@ class BotDB:
                                 f"category TEXT, "
                                 f"specifications TEXT, "
                                 f"documents TEXT, "
+                                f"garant TEXT, "
                                 f"other TEXT)")
 
         except Exception as es:
@@ -61,6 +62,18 @@ class BotDB:
             response = result.fetchall()
         except Exception as es:
             logger_msg(f'SQL ошибка get_all_links "{es}" ')
+
+            return False
+
+        return response
+
+    def get_all_products(self):
+        try:
+            result = self.cursor.execute(f"SELECT * FROM products")
+
+            response = result.fetchall()
+        except Exception as es:
+            logger_msg(f'SQL ошибка get_all_products "{es}" ')
 
             return False
 
@@ -106,12 +119,12 @@ class BotDB:
 
                 self.cursor.execute("INSERT OR IGNORE INTO products ('link', 'name', 'price', 'brand', 'article', "
                                     "'country', 'color', 'description', 'images', 'category', 'specifications', "
-                                    "'documents') VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
+                                    "'documents', 'garant') VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
                                     (products['link'], products['name'], products['price'], products['brand'],
                                      products['article'], products['country'], products['color'],
                                      products['description'],
                                      products['images'], products['category'], specifications,
-                                     products['link']))
+                                     products['documents'], products['garant']))
 
                 self.conn.commit()
 
