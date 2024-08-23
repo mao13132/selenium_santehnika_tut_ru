@@ -31,7 +31,14 @@ def formate_documents(documents):
         except:
             continue
 
-        good_links.append(link)
+        try:
+            name = row.find_element(by=By.XPATH, value=f"./span[contains(@class, 'title')]").text
+        except:
+            name = 'Документ'
+
+        good_value = f'*{name}*{link}'
+
+        good_links.append(good_value)
 
     return_links = ' '.join(x for x in good_links)
 
